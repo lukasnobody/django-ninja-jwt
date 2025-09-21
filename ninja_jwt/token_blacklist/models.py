@@ -29,7 +29,7 @@ class OutstandingToken(models.Model):
         # Also see corresponding ticket:
         # https://github.com/encode/django-rest-framework/issues/705
         abstract = "ninja_jwt.token_blacklist" not in settings.INSTALLED_APPS
-        ordering = ("user",)
+        ordering = ("user_object_id",)
 
     def __str__(self):
         return "Token for {} ({})".format(

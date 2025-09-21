@@ -55,14 +55,14 @@ class OutstandingToken(models.Model):
 
     @staticmethod
     def get_user_models():
-        return (
+        return tuple(
             apps.get_model(*model_path.split('.'))
             for model_path in api_settings.USER_MODELS
         )
 
     @staticmethod
     def get_user_models_names():
-        return [model.__name__ for model in self.get_user_models()]
+        return tuple(model.__name__ for model in self.get_user_models())
 
 
 class BlacklistedToken(models.Model):

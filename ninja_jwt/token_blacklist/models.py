@@ -6,14 +6,6 @@ from django.contrib.contenttypes.models import ContentType
 
 from ..settings import api_settings
 
-USER_MODELS = (
-    apps.get_model(*model_path.split('.'))
-    for model_path in api_settings.USER_MODELS
-)
-USER_MODELS_NAMES = [
-    user_model.__name__ for user_model in USER_MODELS
-]
-
 
 class OutstandingToken(models.Model):
     id = models.BigAutoField(primary_key=True, serialize=False)
@@ -48,18 +40,29 @@ class OutstandingToken(models.Model):
     @property
     def user(self):
         model_class = self.content_type.model_class()
-        if model_class.__name__ in USER_MODELS_NAMES:
+        if model_class.__name__ in self.get_user_models_names():
             return self.content_object
         return None
 
     @user.setter
     def user(self, value):
-        if isinstance(value, USER_MODELS):
+        if isinstance(value, self.get_user_models()):
             self.content_object = value
         elif value is None:
             self.content_object = None
         else:
-            raise ValueError(f"The 'user' property can be only {USER_MODELS_NAMES} object")
+            raise ValueError(f"The 'user' property can be only {self.get_user_models_names()} object")
+
+    @staticmethod
+    def get_user_models():
+        return (
+            apps.get_model(*model_path.split('.'))
+            for model_path in api_settings.USER_MODELS
+        )
+
+    @staticmethod
+    def get_user_models_names():
+        return [model.__name__ for model in self.get_user_models()]
 
 
 class BlacklistedToken(models.Model):

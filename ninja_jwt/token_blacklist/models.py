@@ -59,7 +59,7 @@ class OutstandingToken(models.Model):
         elif value is None:
             self.content_object = None
         else:
-            raise ValueError(f"The 'user' property can be only {USER_MODELS_NAMES} object"
+            raise ValueError(f"The 'user' property can be only {USER_MODELS_NAMES} object")
 
 
 class BlacklistedToken(models.Model):

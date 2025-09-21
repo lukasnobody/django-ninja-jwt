@@ -12,10 +12,10 @@ class OutstandingTokenAdmin(admin.ModelAdmin):
         "expires_at",
     )
     search_fields = (
-        "user__id",
+        "user_object_id",
         "jti",
     )
-    ordering = ("user",)
+    ordering = ("user_object_id",)
 
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)

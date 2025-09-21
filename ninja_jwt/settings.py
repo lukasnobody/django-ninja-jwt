@@ -81,6 +81,7 @@ class NinjaJWTSettings(BaseModel):
         "ninja_jwt.schema.TokenBlacklistInputSchema"
     )
     TOKEN_VERIFY_INPUT_SCHEMA: Any = Field("ninja_jwt.schema.TokenVerifyInputSchema")
+    USER_MODELS: List[Any] = Field([settings.AUTH_USER_MODEL])
 
     @root_validator
     def validate_ninja_jwt_settings(cls, values):
@@ -110,3 +111,4 @@ def reload_api_settings(*args: Any, **kwargs: Any) -> None:
 
 
 setting_changed.connect(reload_api_settings)
+

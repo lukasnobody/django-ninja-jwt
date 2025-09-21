@@ -13,7 +13,7 @@ class OutstandingToken(models.Model):
     user_content_type = models.ForeignKey(
         ContentType, on_delete=models.SET_NULL, null=True, blank=True
     )
-    user_object_id = models.PositiveIntegerField(null=True, blank=True)
+    user_object_id = models.CharField(max_length=255, null=True, blank=True)
     content_object = GenericForeignKey('user_content_type', 'user_object_id')
 
     jti = models.CharField(unique=True, max_length=255)
